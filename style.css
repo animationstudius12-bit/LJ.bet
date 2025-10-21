@@ -1,0 +1,161 @@
+:root{
+  --bg-1: #050911;
+  --panel: rgba(255,255,255,0.03);
+  --neon-1: #13f7c9;
+  --neon-2: #7f7cff;
+  --accent: #13f7c9;
+  --accent-2: #ffd166;
+  --muted: #9fb0bf;
+  --danger: #ff6b6b;
+  --glass: rgba(255,255,255,0.03);
+  --card-radius: 14px;
+  --glass-border: rgba(255,255,255,0.04);
+}
+
+*{box-sizing:border-box}
+html,body{ height:100% }
+body{
+  margin:0;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(ellipse at bottom, #071827 0%, #02040a 60%), var(--bg-1);
+  color: #e8f1f7;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+  overflow:hidden;
+}
+
+/* background canvas */
+.bg-canvas{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+}
+
+/* App container on top */
+#app{ position:relative; z-index:10; width:100%; max-width:1100px }
+
+/* Card style */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+  border-radius:var(--card-radius);
+  padding:18px;
+  margin:12px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.75);
+  border:1px solid var(--glass-border);
+}
+
+/* Centered panel */
+.panel-center{ max-width:420px; text-align:center }
+
+/* Neon brand */
+.brand{ display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:6px }
+.logo{ width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:24px; color:#012 }
+.logo.neon{ background:linear-gradient(135deg,var(--neon-1), var(--neon-2)); box-shadow:0 8px 28px rgba(31, 111, 255, 0.12), 0 0 26px var(--neon-1); color:#041 }
+.neon-text{ color:var(--neon-1); text-shadow: 0 0 10px rgba(19,247,201,0.12), 0 0 22px rgba(127,124,255,0.06) }
+
+/* Inputs / buttons */
+input[type="text"], input[type="password"], input[type="number"], input[type="color"], select {
+  width:100%;
+  padding:12px 14px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(0,0,0,0.25);
+  color: inherit;
+  outline:none;
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,0.35);
+}
+label{ display:block; text-align:left; font-weight:600; font-size:13px; color:var(--muted) }
+
+.row{ display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap }
+
+.btn{
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:800;
+  letter-spacing:0.6px;
+  color:#021;
+  background: linear-gradient(180deg,var(--neon-2), #5f5fff);
+  box-shadow: 0 10px 26px rgba(84,77,255,0.08), 0 0 14px rgba(127,124,255,0.06);
+}
+.btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03) }
+.btn.primary{ background: linear-gradient(180deg,var(--accent), #0bbf82); color:#021; box-shadow:0 10px 26px rgba(11,191,130,0.08) }
+.btn.accent{ background: linear-gradient(180deg,var(--neon-1), var(--neon-2)); color:#021 }
+.btn.danger{ background: linear-gradient(180deg,var(--danger), #ff4a4a); color:#210 }
+
+/* Header hud */
+.menu-header{ display:flex; justify-content:space-between; align-items:center; gap:12px }
+.hud{ display:flex; gap:14px; align-items:center }
+.balance{ font-weight:900; color:var(--accent-2) }
+
+/* Games */
+.game-panel{ max-width:980px }
+.controls-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:12px 0 }
+.info{ margin:6px 0 }
+
+/* Mines grid */
+.mines-grid{
+  display:grid;
+  grid-template-columns: repeat(5, 82px);
+  gap:12px;
+  justify-content:center;
+  padding:18px 6px;
+}
+.mines-grid .cell{
+  width:82px; height:82px; border-radius:12px;
+  background: linear-gradient(180deg,#081a22,#04121a);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:26px; color:#bfffe6; cursor:pointer;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.6), inset 0 -8px 18px rgba(0,0,0,0.55);
+  transition: transform .12s ease, filter .12s, box-shadow .12s;
+  position:relative;
+  overflow:hidden;
+}
+.mines-grid .cell:before{
+  content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12)); border-radius:12px;
+}
+.mines-grid .cell:active{ transform: scale(.98) }
+.mines-grid .cell.revealed{ background: linear-gradient(180deg,#093b2a,#052816); color:#d4ffd8; box-shadow:0 8px 20px rgba(9,59,42,0.45) }
+.mines-grid .cell.bomb{ background: linear-gradient(180deg,#7b1919,#4a0d0d); color:#ffd6d6; box-shadow:0 8px 24px rgba(123,25,25,0.45) }
+
+/* Particles canvas overlay for mines */
+.particles-canvas{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:15;
+}
+
+/* Wheel */
+.wheel-wrap{ display:flex; align-items:center; justify-content:center; margin-top:8px; position:relative }
+.wheel{ width:380px; height:380px; border-radius:50%; overflow:hidden; border:10px solid rgba(255,255,255,0.03); background:#000; box-shadow:0 18px 40px rgba(0,0,0,0.7) }
+.pointer{ position:absolute; top:-20px; left:50%; transform:translateX(-50%); color:var(--neon-2); font-size:34px; text-shadow:0 0 10px rgba(127,124,255,0.12) }
+
+/* win animation */
+.win-anim{
+  position:absolute; left:50%; top:20%; transform:translateX(-50%); z-index:12;
+  background:linear-gradient(90deg, rgba(19,247,201,0.14), rgba(127,124,255,0.14));
+  padding:10px 18px; border-radius:10px; font-weight:800; color:#001; box-shadow:0 10px 30px rgba(11,191,130,0.06);
+}
+
+/* Animations */
+.hidden{ display:none !important }
+.animate-fade{ animation:fadeIn .45s ease both }
+.animate-slide{ animation:slideUp .42s ease both }
+
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+@keyframes slideUp{ from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none} }
+
+/* responsive */
+@media (max-width:720px){
+  .mines-grid{ grid-template-columns: repeat(5, 54px) }
+  .mines-grid .cell{ width:54px; height:54px; font-size:18px }
+  .wheel{ width:240px; height:240px }
+  .logo{ width:56px; height:56px; font-size:18px }
+  .card{ padding:14px }
+}
+

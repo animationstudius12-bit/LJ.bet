@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BetCassino — Neon</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Canvas de partículas de fundo -->
+  <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+  <main id="app">
+    <!-- LOGIN -->
+    <section id="login" class="card panel-center animate-fade">
+      <div class="brand">
+        <div class="logo neon">LJ</div>
+        <h1 class="neon-text">BetCassino</h1>
+      </div>
+
+      <div class="login-form">
+        <label>Usuário
+          <input id="username" placeholder="Usuário" />
+        </label>
+        <label>Senha
+          <input id="password" type="password" placeholder="Senha" />
+        </label>
+        <div class="row">
+          <button id="loginBtn" class="btn primary">Entrar</button>
+          <button id="demoBtn" class="btn ghost">Entrar como demo</button>
+        </div>
+        <p class="muted small">Modo teste — use <strong>admin</strong> / <strong>123</strong></p>
+      </div>
+
+      <div class="bg-chooser">
+        <label>Fundo:
+          <input type="color" id="bgColor" title="Escolher cor de fundo" />
+        </label>
+        <button id="resetBg" class="btn ghost">Reset</button>
+      </div>
+    </section>
+
+    <!-- MAIN MENU -->
+    <section id="menu" class="card hidden animate-fade">
+      <header class="menu-header">
+        <div>
+          <h2 class="neon-text">BetCassino — Modo Teste</h2>
+          <div class="muted small">Bem-vindo, <span id="userLabel">—</span></div>
+        </div>
+        <div class="hud">
+          <div class="balance neon-coin">Saldo: <span id="balance">0</span> <small>cred</small></div>
+          <div class="controls">
+            <button id="btnMines" class="btn accent">💣 Mines</button>
+            <button id="btnRoleta" class="btn accent">🎡 Roleta</button>
+            <button id="logoutBtn" class="btn ghost">Sair</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="welcome">
+        <h3 class="neon-text">Jogos</h3>
+        <p class="muted">Modo de teste — sem dinheiro real.</p>
+      </section>
+    </section>
+
+    <!-- MINES -->
+    <section id="mines" class="card hidden game-panel animate-slide">
+      <header class="game-header">
+        <h2 class="neon-text">💣 Mines</h2>
+        <div class="game-hud">
+          <div>Saldo: <strong id="balanceMines">0</strong></div>
+          <div>Multiplicador: <strong id="minesMult">1.00x</strong></div>
+        </div>
+      </header>
+
+      <div class="controls-row">
+        <input id="betMines" type="number" min="1" placeholder="Aposta (ex: 10)" />
+        <select id="bombCount">
+          <option value="3">3 minas (baixo risco)</option>
+          <option value="4" selected>4 minas</option>
+          <option value="5">5 minas</option>
+          <option value="6">6 minas (alto risco)</option>
+        </select>
+        <button id="startMines" class="btn primary">Iniciar</button>
+        <button id="cashoutMines" class="btn danger" disabled>Sacar</button>
+      </div>
+
+      <div class="info muted">Revele células sem explodir. Cada célula segura aumenta o multiplicador.</div>
+
+      <div id="minesGrid" class="mines-grid" aria-hidden="true"></div>
+
+      <div class="game-footer">
+        <button class="btn ghost" id="backFromMines">Voltar</button>
+      </div>
+
+      <!-- canvas para partículas do Mines -->
+      <canvas id="minesParticles" class="particles-canvas"></canvas>
+    </section>
+
+    <!-- ROLETA -->
+    <section id="roleta" class="card hidden game-panel animate-slide">
+      <header class="game-header">
+        <h2 class="neon-text">🎡 Roleta</h2>
+        <div class="game-hud">
+          <div>Saldo: <strong id="balanceRoleta">0</strong></div>
+          <div id="roletaStatus" class="muted">Resultado: —</div>
+        </div>
+      </header>
+
+      <div class="controls-row">
+        <input id="betRoleta" type="number" min="1" placeholder="Aposta (ex: 10)" />
+        <select id="betType">
+          <option value="color">Cor (red/black) — paga 2x</option>
+          <option value="number">Número (0-36) — paga 36x</option>
+        </select>
+        <input id="betChoice" placeholder="Escolha (ex: red ou 17)" />
+        <button id="spinBtn" class="btn primary">Girar</button>
+      </div>
+
+      <div class="wheel-wrap">
+        <div id="wheel" class="wheel neon-wheel">
+          <canvas id="wheelCanvas" width="460" height="460"></canvas>
+        </div>
+        <div id="pointer" class="pointer neon-text">▲</div>
+      </div>
+
+      <div id="winAnim" class="win-anim hidden"></div>
+
+      <div class="game-footer">
+        <button class="btn ghost" id="backFromRoleta">Voltar</button>
+      </div>
+    </section>
+
+    <footer class="small muted center">Protótipo educativo — não utilizar com dinheiro real</footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
